@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: girusbkp
+  name: girusbkp
+spec:
+  containers:
+  - image: nginx
+    name: girusbkp1
+    resources: {}
+  - image: busybox
+    name: busybox
+    resources: {}
+    args: 
+    - sleep
+    - "6000"  
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+status: {}
