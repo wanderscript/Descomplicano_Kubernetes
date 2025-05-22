@@ -3,19 +3,49 @@ kind: Pod
 metadata:
   creationTimestamp: null
   labels:
-    run: girusbkp
-  name: girusbkp
+    run: giropops
+  name: giropops
+
 spec:
   containers:
-  - image: nginx
-    name: girusbkp1
-    resources: {}
-  - image: busybox
-    name: busybox
-    resources: {}
-    args: 
-    - sleep
-    - "6000"  
+  - image: nginx 
+    name: webserver
+    volumeMounts:
+     - mountPath: /giropops
+       name: primeiro-emptydir
+    ports:
+      - containerPort: 80
+    resources: 
+      limits: 
+        cpu: "1"
+        memory: "128Mi"
+      requests:
+        cpu: "0.5"
+        memory: "64Mi"
+  
+  - image: alpine
+    name: alpine
+    volumeMounts:
+    - mountPath: /alpline-teste
+      name: alpine-teste
+    args:
+    - "sleep"
+    - "6000"
+    resources:
+      limits:
+        cpu: "1"
+        memory: "200Mi"
+      requests:
+        cpu: "0.3"
+        memory: "100Mi"
+  
   dnsPolicy: ClusterFirst
   restartPolicy: Always
-status: {}
+  volumes:
+    - name: primeiro-emptydir
+      emptyDir:
+        sizeLimit: 1Gi
+
+    - name: alpine-teste
+      emptyDir:
+        sizeLimit: "500Mi"
